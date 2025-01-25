@@ -26,3 +26,10 @@
     - Added new font (Oswald)
     - Added ajax.js for loading content
     - Added content for main.css
+
+- Jan. 25, 2025
+  - **Major Additional Content**
+    - Deleted home.html and home.css
+    - Omitted ajax.js
+    - Added new image file
+    - Added form.html

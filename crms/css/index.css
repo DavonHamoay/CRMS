@@ -2,7 +2,7 @@ main {
     width: 100%;
     height: calc(100vh - 60px);
     margin: 0;
-    background-image: url(../img/Lungmen_Downtown.png);
+    background-image: url(../img/lila1.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -85,8 +85,8 @@ main .main-quotes{
 }
 
 .index-category-box {
-    width: 130px;
-    height: 130px;
+    width: 150px;
+    height: 150px;
     background-color: #111;
     background-repeat: no-repeat;
     background-size: cover;
@@ -101,7 +101,7 @@ main .main-quotes{
 }
 
 .index-category-box:nth-child(3) {
-    background-image: url(../img/stars.png);
+    background-image: url(../img/map.png);
 }
 
 .index-category-box:nth-child(4) {
@@ -172,72 +172,4 @@ main .main-quotes{
 .index-about-txt a:hover{
     background-color: var(--site-color-01-hover);
     transition: all ease-in-out 200ms;
-}
-
-.index-about-skill{
-    flex-basis: 350px;
-}
-
-.index-about-skill-bar{
-    width: calc(100% - 8px);
-    height: 20px;
-    border: 4px solid #6e7683;
-}
-
-.index-about-skill-bar-fill{
-    height: 100%;
-    background-color: var(--site-color-01);
-}
-
-.htmlcss{
-    width: 68%;
-}
-
-.php{
-    width: 78%;
-}
-
-.java{
-    width: 78%;
-}
-
-.android{
-    width: 24%;
-}
-
-.photoshop{
-    width: 65%;
-}
-
-@media only screen and (max-width: 600px) {
-
-    main {
-        align-items: flex-end;
-    }
-
-    main .main-intro {
-        padding-bottom: 8vh;
-    }
-
-    main .main-intro h1{
-        font-size: 5rem;
-        line-height: 1.25; 
-        text-align: center;
-    }
-    
-    main p{
-        text-align: center;
-        padding: 0 10%;
-        font-size: 1.6rem;
-        line-height: 1.75;
-    }
-    
-    main a{
-        margin: 30px auto;
-    }
-    
-    main .main-quotes{
-        display: none;
-    }
-    
 }
