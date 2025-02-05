@@ -33,3 +33,6 @@
     - Omitted ajax.js
     - Added new image file
     - Added form.html
+
+- Feb. 05, 2025
+  - Added bootstrap files for data tables (js and css)
