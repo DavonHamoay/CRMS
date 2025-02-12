@@ -2,12 +2,12 @@
 include('config.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user = $_POST['username'];
-    $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $email = $_POST['email'];
+    $dName = $_POST['petname'];
+    $dBreed = $_POST['breed'], PASSWORD_DEFAULT;
+    $dOwner = $_POST['owner'];
 
-    $stmt = $conn->prepare("INSERT INTO crud (crud_uname, crud_pword, crud_email) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $user, $pass, $email);
+    $stmt = $conn->prepare("INSERT INTO crms (dName, dBreed, dOwner) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $dName, $dBreed, $dOwner);
 
     if ($stmt->execute()) {
         echo "Registration successful!";

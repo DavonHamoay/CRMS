@@ -18,27 +18,28 @@
             <table class="table table-dark">
                 <thead>
                   <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Email</th>
+                    <th scope="col">Dog Name</th>
+                    <th scope="col">Dog Breed</th>
+                    <th scope="col">Owner Name</th>
+                    <th scope="col">Edit</th>
                     <th scope="col">Delete</th>
                   </tr>
                 </thead>
                 <tbody>
                     <?php 
                         require_once "config.php";
-                        $sql_query = "SELECT * FROM crud";
+                        $sql_query = "SELECT * FROM crms";
                         if ($result = $conn ->query($sql_query)) {
                             while ($row = $result -> fetch_assoc()) { 
-                                $Id = $row['id'];
-                                $Name = $row['crud_uname'];
-                                $Email = $row['crud_email'];
+                                $PetName = $row['dName'];
+                                $Breed = $row['dBreed'];
+                                $Owner = $row['dOwner'];
                     ?>
                     
                     <tr class="trow">
-                        <td><?php echo $Id; ?></td>
-                        <td><?php echo $Name; ?></td>
-                        <td><?php echo $Email; ?></td>
+                        <td><?php echo $PetName; ?></td>
+                        <td><?php echo $Breed; ?></td>
+                        <td><?php echo $Owner; ?></td>
                         <td><a href="deletedata.php?id=<?php echo $Id; ?>" class="btn btn-danger">Delete</a></td>
                     </tr>
 

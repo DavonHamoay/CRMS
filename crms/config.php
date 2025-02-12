@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "crud_race";
+$dbname = "crms";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
