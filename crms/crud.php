@@ -28,7 +28,7 @@
                 <tbody>
                     <?php 
                         require_once "config.php";
-                        $sql_query = "SELECT * FROM crms";
+                        $sql_query = "SELECT * FROM tblreg";
                         if ($result = $conn ->query($sql_query)) {
                             while ($row = $result -> fetch_assoc()) { 
                                 $PetName = $row['dName'];

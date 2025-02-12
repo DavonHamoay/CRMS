@@ -3,10 +3,10 @@ include('config.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dName = $_POST['petname'];
-    $dBreed = $_POST['breed'], PASSWORD_DEFAULT;
+    $dBreed = $_POST['breed'];
     $dOwner = $_POST['owner'];
 
-    $stmt = $conn->prepare("INSERT INTO crms (dName, dBreed, dOwner) VALUES (?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO tblreg (dName, dBreed, dOwner) VALUES (?, ?, ?)");
     $stmt->bind_param("sss", $dName, $dBreed, $dOwner);
 
     if ($stmt->execute()) {
