@@ -5,62 +5,61 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP - MYSQL - CRUD</title>
-    <!-- CSS only -->
+    <title>Canine Data</title>
+    <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- JavaScript Bundle with Popper -->
     <script src="js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
-<section style="margin: 50px 0;">
-        <div class="container">
-            <table class="table table-dark">
-                <thead>
-                  <tr>
-                    <th scope="col">Dog Name</th>
-                    <th scope="col">Dog Breed</th>
-                    <th scope="col">Owner Name</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
-                  </tr>
+<section class="my-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Registered Canines</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Dog Name</th>
+                        <th scope="col">Dog Breed</th>
+                        <th scope="col">Owner Name</th>
+                        <th scope="col">Vaccination Status</th>
+                        <th scope="col">Status</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <?php 
-                        require_once "config.php";
-                        $sql_query = "SELECT * FROM tblreg";
-                        if ($result = $conn ->query($sql_query)) {
-                            while ($row = $result -> fetch_assoc()) { 
-                                $PetName = $row['dName'];
-                                $Breed = $row['dBreed'];
-                                $Owner = $row['dOwner'];
+                    require_once "config.php";
+                    $sql_query = "SELECT * FROM tblreg";
+                    if ($result = $conn->query($sql_query)) {
+                        while ($row = $result->fetch_assoc()) { 
+                            $PetName = htmlspecialchars($row['dName'] ?? 'Unknown');
+                            $Breed = htmlspecialchars($row['dBreed'] ?? 'Unknown');
+                            $Owner = htmlspecialchars($row['dOwner'] ?? 'Unknown');
+                            $Vaccinated = htmlspecialchars($row['dVaccinated'] ?? 'No'); // Default to 'No'
+                            $Status = htmlspecialchars($row['dStatus'] ?? 'Inactive'); // Default to 'Inactive'
                     ?>
-                    
-                    <tr class="trow">
+                    <tr>
                         <td><?php echo $PetName; ?></td>
                         <td><?php echo $Breed; ?></td>
                         <td><?php echo $Owner; ?></td>
-                        <td><a href="deletedata.php?id=<?php echo $Id; ?>" class="btn btn-danger">Delete</a></td>
+                        <td><?php echo ($Vaccinated == 'Yes') ? "✅ Yes" : "❌ No"; ?></td>
+                        <td><?php echo ($Status == 'Active') ? "<span class='text-success'>🟢 Active</span>" : "<span class='text-danger'>🔴 Inactive</span>"; ?></td>
                     </tr>
-
                     <?php
-                            } 
                         } 
+                    } 
                     ?>
                 </tbody>
-              </table>
+            </table>
         </div>
-    </section>
-</body>
+    </div>
+</section>
 
-<!-- Add a button to redirect to the home page -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Registration</title>
-</head>
-<body>
-    <br><br>
-    <button onclick="window.location.href='dashboard.html'">Go to Home</button>
+<!-- Button to go back to home -->
+<div class="text-center my-4">
+    <button class="btn btn-primary" onclick="window.location.href='index.html'">Go to Home</button>
+</div>
+
 </body>
 </html>
