@@ -31,12 +31,14 @@
                         $sql_query = "SELECT * FROM tblreg";
                         if ($result = $conn ->query($sql_query)) {
                             while ($row = $result -> fetch_assoc()) { 
+                                $Id = $row['id'];
                                 $PetName = $row['dName'];
                                 $Breed = $row['dBreed'];
                                 $Owner = $row['dOwner'];
                     ?>
                     
                     <tr class="trow">
+                        <td><?php echo $Id; ?></td>
                         <td><?php echo $PetName; ?></td>
                         <td><?php echo $Breed; ?></td>
                         <td><?php echo $Owner; ?></td>
