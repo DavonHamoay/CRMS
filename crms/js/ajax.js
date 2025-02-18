@@ -1,20 +1,22 @@
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("edit-data").addEventListener("click", function(event) {
-        event.preventDefault();
-        loadContent("crud.php");
-    });
+function loadContent(page) {
+    var xhttp = new XMLHttpRequest();
+    
+    // Show loading message in #content div
+    document.getElementById("content").innerHTML = "Loading...";
 
-    document.getElementById("register").addEventListener("click", function(event) {
-        event.preventDefault();
-        loadContent("register.php");
-    });
-});
-
-function loadContent(url) {
-    fetch(url)
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById("content").innerHTML = data;
-        })
-        .catch(error => console.error("Error loading content:", error));
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                // Success: inject content into #content
+                document.getElementById("content").innerHTML = this.responseText;
+            } else {
+                // Error: show an error message
+                document.getElementById("content").innerHTML = "Oops! Something went wrong.";
+                console.error('Error: ' + this.statusText);
+            }
+        }
+    };
+    
+    xhttp.open("GET", `${page}.php`, true);
+    xhttp.send();
 }

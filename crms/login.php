@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     // Prepare the SQL statement using a question mark placeholder
-    $stmt = $conn->prepare("SELECT id, username, password_hash FROM users WHERE username = ?");
+    $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
 
@@ -22,13 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Debugging: Print out user data for verification (remove in production)
     if ($user) {
         echo "User found: " . htmlspecialchars($user['username']) . "<br>";
-        echo "Stored hash: " . htmlspecialchars($user['password_hash']) . "<br>";
+        echo "Stored hash: " . htmlspecialchars($user['password']) . "<br>";
     } else {
         echo "No user found with that username.<br>";
     }
 
     // Verify the password if a user is found
-    if ($user && password_verify($password, $user['password_hash'])) {
+    if ($user && password_verify($password, $user['password'])) {
         // Set session variable for the logged-in user
         $_SESSION['username'] = $username;
 

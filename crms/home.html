@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/index.css">
-    <script src = "js/ajax.js"></script>
+    <script src = "js/script.js"></script>
+    <!--<script src = "js/ajax.js"></script>-->
 </head>
 <body>
     <header class="header-main">
@@ -18,9 +19,10 @@
             <img src="img/seal.svg" alt="canine">
             <nav class="header-main-nav">
                 <ul>
+                    <!--<li><a href="#" onclick="loadContent('crud')">EDIT DATA</a></li>-->
                     <li><a href="crud.php">EDIT DATA</a></li>
                     <li><a href="#">USER SETTINGS</a></li>
-                    <li><a href="#">LOG OUT</a></li>
+                    <li><a href="logout.php">LOG OUT</a></li>
                 </ul>
             </nav>
         </div>
@@ -30,6 +32,10 @@
         <div class="main-intro">
             <h1>Canine registration<br>and<br>management system</h1>
             <a href="register.php">registration</a>
+        </div>
+
+        <div id="content">
+
         </div>
     </main>
 
@@ -44,6 +50,10 @@
         <a href="#" class="index-category-box">
             <div class="overlay"></div>
             <h3>Map Overview</h3>
+        </a>
+        <a href="town.php" class="index-category-box">
+            <div class="overlay"></div>
+            <h3>Barangay Data</h3>
         </a>
     </section>
 

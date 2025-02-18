@@ -1,8 +1,12 @@
 <?php
 include('config.php');
 
-$PetName = $Breed = $Owner = $Vaccinated = $Status = "";
+$PetName = $Breed = $Owner = $Vaccinated = $Status = $TownID = "";
 $isEdit = false; // Check if this is an edit action
+
+// Fetch available towns for the select dropdown
+$townQuery = "SELECT id, dTown FROM towns";
+$townResult = $conn->query($townQuery);
 
 // Check if editing
 if (isset($_GET['id']) && !empty($_GET['id'])) {
@@ -21,6 +25,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         $Owner = $row['dOwner'];
         $Vaccinated = $row['dVaccinated'];
         $Status = $row['dStatus'];
+        $TownID = $row['dTownID']; // Fetch the town ID for editing
     } else {
         echo "<script>alert('Record not found!'); window.location.href='table.php';</script>";
         exit();
@@ -34,15 +39,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dOwner = $_POST['owner'];
     $vaccinated = $_POST['vaccinated'];
     $status = $_POST['status'];
+    $dTownID = $_POST['town']; // Get the town ID selected by the user
 
     if ($isEdit) {
         // Update existing record
-        $stmt = $conn->prepare("UPDATE tblreg SET dName = ?, dBreed = ?, dOwner = ?, dVaccinated = ?, dStatus = ? WHERE id = ?");
-        $stmt->bind_param("sssssi", $dName, $dBreed, $dOwner, $vaccinated, $status, $id);
+        $stmt = $conn->prepare("UPDATE tblreg SET dName = ?, dBreed = ?, dOwner = ?, dVaccinated = ?, dStatus = ?, dTownID = ? WHERE id = ?");
+        $stmt->bind_param("ssssssi", $dName, $dBreed, $dOwner, $vaccinated, $status, $dTownID, $id);
     } else {
         // Insert new record
-        $stmt = $conn->prepare("INSERT INTO tblreg (dName, dBreed, dOwner, dVaccinated, dStatus) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $dName, $dBreed, $dOwner, $vaccinated, $status);
+        $stmt = $conn->prepare("INSERT INTO tblreg (dName, dBreed, dOwner, dVaccinated, dStatus, dTownID) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssi", $dName, $dBreed, $dOwner, $vaccinated, $status, $dTownID);
     }
 
     if ($stmt->execute()) {
@@ -98,6 +104,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="available">Available</label>
             <input type="radio" id="adopted" name="status" value="Adopted" required <?php echo ($Status == "Adopted") ? "checked" : ""; ?>>
             <label for="adopted">Adopted</label>
+        </div>
+
+        <!-- Town Selection -->
+        <div class="mb-3">
+            <label for="town" class="form-label">Select Town:</label>
+            <select id="town" name="town" class="form-select" required>
+                <option value="">Select Town</option>
+                <?php while ($town = $townResult->fetch_assoc()) { ?>
+                    <option value="<?php echo $town['id']; ?>" <?php echo ($town['id'] == $TownID) ? "selected" : ""; ?>>
+                        <?php echo htmlspecialchars($town['dTown']); ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary"><?php echo $isEdit ? "Update" : "Register"; ?></button>

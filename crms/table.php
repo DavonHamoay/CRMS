@@ -8,8 +8,24 @@
     <title>Canine Data</title>
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link href="css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- JavaScript Bundle with Popper -->
     <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTables
+            $('.table').DataTable({
+                "paging": true,        // Enable paging
+                "ordering": true,      // Enable sorting
+                "info": true           // Show table information
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -58,7 +74,7 @@
 
 <!-- Button to go back to home -->
 <div class="text-center my-4">
-    <button class="btn btn-primary" onclick="window.location.href='index.html'">Go to Home</button>
+    <button class="btn btn-primary" onclick="window.location.href='home.html'">Go to Home</button>
 </div>
 
 </body>

@@ -11,6 +11,7 @@ main {
     align-items: center;
     z-index: 100;
     column-gap: 100px;
+    flex-direction: column;
 }
 
 main .main-intro h1{
@@ -53,6 +54,8 @@ main .main-intro{
     right: 20vh;
     padding-bottom: 8vh;
     text-shadow: -2px 2px 4px #111;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 main .main-quotes{
@@ -172,4 +175,12 @@ main .main-quotes{
 .index-about-txt a:hover{
     background-color: var(--site-color-01-hover);
     transition: all ease-in-out 200ms;
+}
+
+/* AJAX CONTENT */
+
+#content {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
 }

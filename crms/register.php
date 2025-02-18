@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sss", $dName, $dBreed, $dOwner);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Registration successful!'); window.location.href='index.html';</script>";
+        echo "<script>alert('Registration successful!'); window.location.href='home.html';</script>";
     } else {
         echo "Error: " . $stmt->error;
     }
