@@ -16,13 +16,33 @@
     <script src="js/jquery-3.7.1.min.js"></script>
     <!-- DataTables JS -->
     <script src="js/jquery.dataTables.min.js"></script>
+    
+    <style>
+        /* Highlight row on hover */
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        /* Highlight selected row */
+        .selected-row {
+            background-color: #d4edda !important; /* Light green */
+        }
+    </style>
+
     <script>
         $(document).ready(function() {
             // Initialize DataTables
             $('.table').DataTable({
-                "paging": true,        // Enable paging
-                "ordering": true,      // Enable sorting
-                "info": true           // Show table information
+                "paging": true,        
+                "ordering": true,      
+                "info": true           
+            });
+
+            // Row Click Highlighting
+            $(".table tbody").on("click", "tr", function() {
+                $(".table tbody tr").removeClass("selected-row"); // Remove previous selection
+                $(this).addClass("selected-row"); // Add class to clicked row
             });
         });
     </script>
@@ -77,5 +97,5 @@
     <button class="btn btn-primary" onclick="window.location.href='home.html'">Go to Home</button>
 </div>
 
-</body>
+</body>  
 </html>
