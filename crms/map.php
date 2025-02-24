@@ -109,50 +109,67 @@
             })
             .catch(error => console.error('Error loading data:', error));
 
-        function updateMap(filter) {
-            // Remove existing zones
-            map.eachLayer(layer => { if (layer instanceof L.Circle) map.removeLayer(layer); });
+            function updateMap(filter) {
+                // Remove existing zones
+                map.eachLayer(layer => { if (layer instanceof L.Circle) map.removeLayer(layer); });
 
-            allZones.forEach(zone => {
-                let show = 
-                    filter === "all" || 
-                    (filter === "vaccinated" && zone.vaccinated_count > 0) || 
-                    (filter === "non-vaccinated" && zone.vaccinated_count === 0) ||
-                    (filter === "registered" && zone.dog_count > 0);
+                allZones.forEach(zone => {
+                    let show = 
+                        filter === "all" || 
+                        (filter === "vaccinated" && zone.vaccinated_count > 0) || 
+                        (filter === "non-vaccinated" && zone.vaccinated_count === 0) ||
+                        (filter === "registered" && zone.dog_count > 0);
 
-                if (show) {
-                    let color = zone.vaccinated_count > 0 ? "green" :
-                                zone.dog_count > 0 ? "yellow" : "red";
+                    if (show) {
+                        let color;
+                        let isHighRisk = (zone.vaccinated_count / zone.dog_count) < 0.3; // Less than 30% vaccinated
+                        let radius = zone.dog_count > 50 ? 750 : zone.dog_count > 20 ? 500 : 250;
 
-                    let radius = zone.dog_count > 50 ? 750 : zone.dog_count > 20 ? 500 : 250;
+                        if (isHighRisk) {
+                            color = "orange"; // High-Risk Area
+                        } else if (zone.vaccinated_count > 0) {
+                            color = "green"; // Vaccinated
+                        } else {
+                            color = "red"; // Non-Vaccinated
+                        }
 
-                    let circle = L.circle([zone.dLatitude, zone.dLongitude], {
-                        color: color,
-                        fillColor: color,
-                        fillOpacity: 0.4,
-                        radius: radius
-                    }).addTo(map);
+                        let circle = L.circle([zone.dLatitude, zone.dLongitude], {
+                            color: color,
+                            fillColor: color,
+                            fillOpacity: 0.5,
+                            radius: radius
+                        }).addTo(map);
 
-                    // Show town info on click
-                    circle.on('click', function() {
-                        console.log("Clicked on:", zone.dTown);
-                        let dogList = (zone.dogs && Array.isArray(zone.dogs)) ? zone.dogs.map(dog => `
-                            <li><strong>${dog.dName}</strong> - Owner: ${dog.dOwner} (${dog.vaccinated ? "✅ Vaccinated" : "❌ Not Vaccinated"})</li>
-                        `).join('') : "<p>No registered dogs.</p>";
+                        // ✅ Add Warning for High-Risk Areas
+                        let warningMessage = isHighRisk ? "<br><strong style='color: orange;'>⚠ High-Risk Area: Low vaccination rate!</strong>" : "";
 
-                        document.getElementById("townInfo").innerHTML = `
-                            <h6><b>${zone.dTown}</b></h6>
-                            <hr>
-                            <p><strong>Registered Dogs:</strong> ${zone.dog_count}</p>
-                            <p><strong>Vaccinated Dogs:</strong> ${zone.vaccinated_count}</p>
-                            <hr>
-                            <h6>Dog List:</h6>
-                            <ul>${dogList}</ul>
-                        `;
-                    });
-                }
-            });
-        }
+                        circle.bindPopup(`
+                            <b>${zone.dTown}</b><br>
+                            Registered Dogs: ${zone.dog_count}<br>
+                            Vaccinated Dogs: ${zone.vaccinated_count}
+                            ${warningMessage}
+                        `);
+
+                        circle.on('click', function() {
+                            let dogList = zone.dogs.map(dog => `
+                                <li><strong>${dog.dName}</strong> - Owner: ${dog.dOwner} (${dog.vaccinated ? "✅ Vaccinated" : "❌ Not Vaccinated"})</li>
+                            `).join('');
+
+                            document.getElementById("townInfo").innerHTML = `
+                                <h6><b>${zone.dTown}</b></h6>
+                                <hr>
+                                <p><strong>Registered Dogs:</strong> ${zone.dog_count}</p>
+                                <p><strong>Vaccinated Dogs:</strong> ${zone.vaccinated_count}</p>
+                                ${isHighRisk ? "<p class='alert alert-danger'>⚠ High-Risk: Less than 30% dogs vaccinated!</p>" : ""}
+                                <hr>
+                                <h6>Dog List:</h6>
+                                <ul>${dogList}</ul>
+                            `;
+                        });
+                    }
+                });
+            }
+
 
         // Legend
         var legend = L.control({ position: "bottomleft" });
