@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
 
     // Prepare the SQL statement using a question mark placeholder
-    $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE username = ?");
+    $stmt = $conn->prepare("SELECT id, username, password, role FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
 
@@ -32,9 +32,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Set session variable for the logged-in user
         $_SESSION['username'] = $username;
 
-        // Redirect to dashboard.html
-        header('Location: home.html');
-        exit();
+        // Check the user's role and redirect accordingly
+        if ($user['role'] == 'administrator') {
+            // Redirect to the admin dashboard
+            header('Location: home.html');
+            exit();
+        } else {
+            // Redirect to the user dashboard
+            header('Location: user_d.html');
+            exit();
+        }
     } else {
         // Authentication failed
         echo "Invalid username or password.";
