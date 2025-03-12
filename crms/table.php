@@ -60,12 +60,13 @@
                         <th scope="col">Dog Breed</th>
                         <th scope="col">Owner Name</th>
                         <th scope="col">Vaccination Status</th>
-                        <th scope="col">Status</th>
+                        <th scope="col">Registration Date</th> <!-- Change Status to Registration Date -->
                     </tr>
                 </thead>
                 <tbody>
                     <?php 
                     require_once "config.php";
+                    // Fetch records from tblreg including dRegistrationDate
                     $sql_query = "SELECT * FROM tblreg";
                     if ($result = $conn->query($sql_query)) {
                         while ($row = $result->fetch_assoc()) { 
@@ -73,14 +74,14 @@
                             $Breed = htmlspecialchars($row['dBreed'] ?? 'Unknown');
                             $Owner = htmlspecialchars($row['dOwner'] ?? 'Unknown');
                             $Vaccinated = htmlspecialchars($row['dVaccinated'] ?? 'No'); // Default to 'No'
-                            $Status = htmlspecialchars($row['dStatus'] ?? 'Inactive'); // Default to 'Inactive'
+                            $RegistrationDate = htmlspecialchars($row['dRegistrationDate'] ?? 'N/A'); // Get Registration Date
                     ?>
                     <tr>
                         <td><?php echo $PetName; ?></td>
                         <td><?php echo $Breed; ?></td>
                         <td><?php echo $Owner; ?></td>
                         <td><?php echo ($Vaccinated == 'Yes') ? "✅ Yes" : "❌ No"; ?></td>
-                        <td><?php echo ($Status == 'Active') ? "<span class='text-success'>🟢 Active</span>" : "<span class='text-danger'>🔴 Inactive</span>"; ?></td>
+                        <td><?php echo $RegistrationDate; ?></td> <!-- Display Registration Date -->
                     </tr>
                     <?php
                         } 
@@ -94,7 +95,7 @@
 
 <!-- Button to go back to home -->
 <div class="text-center my-4">
-    <button class="btn btn-primary" onclick="window.location.href='home.html'">Go to Home</button>
+    <button class="btn btn-primary" onclick="window.location.href='user_d.html'">Go to Home</button>
 </div>
 
 </body>  

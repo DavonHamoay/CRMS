@@ -1,7 +1,7 @@
 <?php
 include('config.php');
 
-$PetName = $Breed = $Owner = $Vaccinated = $Status = $TownID = "";
+$PetName = $Breed = $Owner = $Vaccinated = $RegistrationDate = $TownID = "";
 $isEdit = false; // Check if this is an edit action
 
 // Fetch available towns for the select dropdown
@@ -24,7 +24,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         $Breed = $row['dBreed'];
         $Owner = $row['dOwner'];
         $Vaccinated = $row['dVaccinated'];
-        $Status = $row['dStatus'];
+        $RegistrationDate = $row['dRegistrationDate']; // Fetch the registration date for editing
         $TownID = $row['dTownID']; // Fetch the town ID for editing
     } else {
         echo "<script>alert('Record not found!'); window.location.href='table.php';</script>";
@@ -38,17 +38,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dBreed = $_POST['breed'];
     $dOwner = $_POST['owner'];
     $vaccinated = $_POST['vaccinated'];
-    $status = $_POST['status'];
     $dTownID = $_POST['town']; // Get the town ID selected by the user
+    $dRegistrationDate = date("Y-m-d"); // Get the current date for registration
 
     if ($isEdit) {
         // Update existing record
-        $stmt = $conn->prepare("UPDATE tblreg SET dName = ?, dBreed = ?, dOwner = ?, dVaccinated = ?, dStatus = ?, dTownID = ? WHERE id = ?");
-        $stmt->bind_param("ssssssi", $dName, $dBreed, $dOwner, $vaccinated, $status, $dTownID, $id);
+        $stmt = $conn->prepare("UPDATE tblreg SET dName = ?, dBreed = ?, dOwner = ?, dVaccinated = ?, dRegistrationDate = ?, dTownID = ? WHERE id = ?");
+        $stmt->bind_param("ssssssi", $dName, $dBreed, $dOwner, $vaccinated, $dRegistrationDate, $dTownID, $id);
     } else {
         // Insert new record
-        $stmt = $conn->prepare("INSERT INTO tblreg (dName, dBreed, dOwner, dVaccinated, dStatus, dTownID) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssssi", $dName, $dBreed, $dOwner, $vaccinated, $status, $dTownID);
+        $stmt = $conn->prepare("INSERT INTO tblreg (dName, dBreed, dOwner, dVaccinated, dRegistrationDate, dTownID) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssi", $dName, $dBreed, $dOwner, $vaccinated, $dRegistrationDate, $dTownID);
     }
 
     if ($stmt->execute()) {
@@ -97,13 +97,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="vaccinated_no">No</label>
         </div>
 
-        <!-- Status -->
+        <!-- Registration Date (Automatically set to the current date) -->
         <div class="mb-3">
-            <label class="form-label">Status:</label><br>
-            <input type="radio" id="available" name="status" value="Available" required <?php echo ($Status == "Available") ? "checked" : ""; ?>>
-            <label for="available">Available</label>
-            <input type="radio" id="adopted" name="status" value="Adopted" required <?php echo ($Status == "Adopted") ? "checked" : ""; ?>>
-            <label for="adopted">Adopted</label>
+            <label for="registrationDate" class="form-label">Registration Date:</label>
+            <input type="date" id="registrationDate" name="registrationDate" class="form-control" required value="<?php echo $isEdit ? $RegistrationDate : date('Y-m-d'); ?>" readonly>
         </div>
 
         <!-- Town Selection -->

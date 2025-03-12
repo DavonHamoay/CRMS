@@ -15,7 +15,7 @@ if ($result = $conn->query($sql_query)) {
         $Breed = htmlspecialchars($row['dBreed'] ?? 'N/A');
         $Owner = htmlspecialchars($row['dOwner'] ?? 'N/A');
         $Vacc = htmlspecialchars($row['dVaccinated'] ?? 'N/A');
-        $Status = htmlspecialchars($row['dStatus'] ?? 'N/A');
+        $RegistrationDate = htmlspecialchars($row['dRegistrationDate'] ?? 'N/A'); // Registration Date from the table
         $Town = htmlspecialchars($row['dTown'] ?? 'N/A'); // Town name from the joined table
 
         // Output each row of data as HTML
@@ -24,7 +24,7 @@ if ($result = $conn->query($sql_query)) {
                 <td>{$Breed}</td>
                 <td>{$Owner}</td>
                 <td>" . (($Vacc == 'Yes') ? "✅ Yes" : "❌ No") . "</td>
-                <td>" . (($Status == 'Available') ? "<span class='text-success'>🟢 Available</span>" : "<span class='text-danger'>🔴 Adopted</span>") . "</td>
+                <td>{$RegistrationDate}</td> <!-- Display Registration Date -->
                 <td>{$Town}</td>
                 <td><a href='editdata.php?id={$Id}' class='btn btn-warning btn-sm'>Edit</a></td>
                 <td><a href='deletedata.php?id={$Id}' class='btn btn-danger btn-sm' onclick='return confirm(\"Are you sure you want to delete this record?\");'>Delete</a></td>

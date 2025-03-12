@@ -1,52 +1,38 @@
 <?php
+// Include the database configuration file to establish a connection
 include('config.php');
 
+// Check if the request method is POST (form submission)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Retrieve data from the form
     $dName = $_POST['petname'];
     $dBreed = $_POST['breed'];
-    $dOwner = $_POST['owner'];
+    $dFirstName = $_POST['firstName'];
+    $dMiddleInitial = $_POST['middleInitial'];
+    $dLastName = $_POST['lastName'];
 
+    // Full owner name can be combined for storage or further use
+    $dOwnerFullName = $dFirstName . ' ' . $dMiddleInitial . ' ' . $dLastName;
+
+    // Prepare the SQL query to insert the data into the database
     $stmt = $conn->prepare("INSERT INTO tblreg (dName, dBreed, dOwner) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $dName, $dBreed, $dOwner);
+    $stmt->bind_param("sss", $dName, $dBreed, $dOwnerFullName); // Bind parameters to the query
 
+    // Execute the query
     if ($stmt->execute()) {
-        echo "<script>alert('Registration successful!'); window.location.href='home.html';</script>";
+        // If the insertion is successful, return a success message
+        echo "Registration successful!";
     } else {
+        // If there is an error, output the error
         echo "Error: " . $stmt->error;
     }
 
+    // Close the prepared statement and the database connection
     $stmt->close();
     $conn->close();
+} else {
+    // If the request is not POST, return an error message
+    echo "Invalid request method.";
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Pet</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <script src="js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
-<div class="container mt-5">
-    <h2>Register Your Pet</h2>
-    <form action="register.php" method="POST" class="mt-3">
-        <div class="mb-3">
-            <label for="petname" class="form-label">Pet Name:</label>
-            <input type="text" id="petname" name="petname" class="form-control" required placeholder="Enter pet's name">
-        </div>
-        <div class="mb-3">
-            <label for="breed" class="form-label">Breed:</label>
-            <input type="text" id="breed" name="breed" class="form-control" required placeholder="Enter breed">
-        </div>
-        <div class="mb-3">
-            <label for="owner" class="form-label">Owner:</label>
-            <input type="text" id="owner" name="owner" class="form-control" required placeholder="Enter owner's name">
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
-    </form>
-</div>
-</body>
-</html>
