@@ -9,15 +9,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dName = $_POST['petname'];
     $dBreed = $_POST['breed'];
     $dFirstName = $_POST['firstName'];
-    $dMiddleInitial = $_POST['middleInitial'];
+    $dMiddleInitial = $_POST['middleInitial'];  // Middle name/initial (optional)
     $dLastName = $_POST['lastName'];
 
     // Full owner name can be combined for storage or further use
-    $dOwnerFullName = $dFirstName . ' ' . $dMiddleInitial . ' ' . $dLastName;
+    // Check if the middle name is provided, and only include it if it's not empty
+    if (!empty($dMiddleInitial)) {
+        $dOwnerFullName = $dFirstName . ' ' . $dMiddleInitial . ' ' . $dLastName;
+    } else {
+        $dOwnerFullName = $dFirstName . ' ' . $dLastName;
+    }
+
+    // Get the current date in 'YYYY-MM-DD' format
+    $currentDate = date('Y-m-d');  // Current date (e.g., 2025-03-18)
 
     // Prepare the SQL query to insert the data into the database
-    $stmt = $conn->prepare("INSERT INTO tblreg (dName, dBreed, dOwner) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $dName, $dBreed, $dOwnerFullName); // Bind parameters to the query
+    $stmt = $conn->prepare("INSERT INTO tblreg (dName, dBreed, dOwner, dRegistrationDate) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $dName, $dBreed, $dOwnerFullName, $currentDate); // Bind parameters to the query
 
     // Execute the query
     if ($stmt->execute()) {

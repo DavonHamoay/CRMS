@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 24, 2025 at 06:29 AM
+-- Generation Time: Mar 19, 2025 at 08:03 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -34,21 +34,22 @@ CREATE TABLE IF NOT EXISTS `tblreg` (
   `dBreed` varchar(50) NOT NULL COMMENT '50',
   `dOwner` varchar(50) NOT NULL COMMENT '50',
   `dVaccinated` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `dStatus` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `dTownID` int DEFAULT NULL,
   `dLatitude` decimal(10,6) DEFAULT NULL,
   `dLongitude` decimal(10,6) DEFAULT NULL,
+  `dRegistrationDate` date NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `fk_dTownID` (`dTownID`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `tblreg`
 --
 
-INSERT INTO `tblreg` (`id`, `dName`, `dBreed`, `dOwner`, `dVaccinated`, `dStatus`, `dTownID`, `dLatitude`, `dLongitude`) VALUES
-(16, 'Bornok', 'Aspin', 'Davon', 'Yes', 'Adopted', 14, NULL, NULL);
+INSERT INTO `tblreg` (`id`, `dName`, `dBreed`, `dOwner`, `dVaccinated`, `dTownID`, `dLatitude`, `dLongitude`, `dRegistrationDate`) VALUES
+(25, 'Chuckie', 'German Shepard', 'Jun Davon Hamoay', 'Yes', 14, NULL, NULL, '2025-03-18'),
+(26, 'Bruno', 'Aspin', 'Price T Hamoay', 'No', 14, NULL, NULL, '2025-03-18');
 
 -- --------------------------------------------------------
 
@@ -100,16 +101,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `role` varchar(55) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`) VALUES
-(1, 'admin', '$2y$10$Am277n6qQk7ft0GZmN1ZGexr6UrH2t8t9G5TIL3Sb0egWlFXeTcyy');
+INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
+(1, 'admin', '$2y$10$Am277n6qQk7ft0GZmN1ZGexr6UrH2t8t9G5TIL3Sb0egWlFXeTcyy', 'administrator'),
+(2, 'Jinwoo', '$2y$10$MY77F2.D7//PnyHFl/TyJuJwDroV6uYeWqfDkh3Li7zCZHYCY5N8G', 'user');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
