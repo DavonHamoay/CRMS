@@ -95,7 +95,7 @@
 
 <!-- Button to go back to home -->
 <div class="text-center my-4">
-    <button class="btn btn-primary" onclick="window.location.href='home.html'">Go to Home</button>
+    <button class="btn btn-primary" onclick="window.location.href='user_d.html'">Go to Home</button>
 </div>
 
 </body>  
