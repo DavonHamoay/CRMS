@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($stmt->execute()) {
-        echo "<script>alert('Operation successful!'); window.location.href='table.php';</script>";
+        echo "<script>alert('Operation successful!'); window.location.href='crud.php';</script>";
     } else {
         echo "Error: " . $stmt->error;
     }
