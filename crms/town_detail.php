@@ -6,7 +6,7 @@ if (isset($_GET['town'])) {
     $town = htmlspecialchars($_GET['town']); // Get the town name from the URL
 
     // Query to get details of registered dogs and owners for the specific town
-    $sql_query = "SELECT r.dName, r.dBreed, r.dOwner, r.dVaccinated, r.dStatus
+    $sql_query = "SELECT r.dName, r.dBreed, r.dOwner, r.dVaccinated
                   FROM tblreg r
                   JOIN towns t ON r.dTownID = t.id
                   WHERE t.dTown = '$town'"; // Using town name in query
@@ -36,7 +36,6 @@ if (isset($_GET['town'])) {
                         <th scope="col">Dog Breed</th>
                         <th scope="col">Owner Name</th>
                         <th scope="col">Vaccination Status</th>
-                        <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,14 +45,12 @@ if (isset($_GET['town'])) {
                         $Breed = htmlspecialchars($row['dBreed'] ?? 'Unknown');
                         $Owner = htmlspecialchars($row['dOwner'] ?? 'Unknown');
                         $Vaccinated = htmlspecialchars($row['dVaccinated'] ?? 'No');
-                        $Status = htmlspecialchars($row['dStatus'] ?? 'Inactive');
                     ?>
                     <tr>
                         <td><?php echo $PetName; ?></td>
                         <td><?php echo $Breed; ?></td>
                         <td><?php echo $Owner; ?></td>
                         <td><?php echo ($Vaccinated == 'Yes') ? "✅ Yes" : "❌ No"; ?></td>
-                        <td><?php echo ($Status == 'Active') ? "<span class='text-success'>🟢 Active</span>" : "<span class='text-danger'>🔴 Inactive</span>"; ?></td>
                     </tr>
                     <?php
                     }
